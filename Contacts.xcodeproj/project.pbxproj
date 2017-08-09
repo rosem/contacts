@@ -20,6 +20,8 @@
 		5A217D181F3B673C003B8054 /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A217D171F3B673C003B8054 /* NSAttributedString+Extension.swift */; };
 		5A217D1B1F3B6DA2003B8054 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A217D1A1F3B6DA2003B8054 /* ContactsViewController.swift */; };
 		5A217D1D1F3B6F39003B8054 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A217D1C1F3B6F39003B8054 /* ContactTableViewCell.swift */; };
+		5A217D201F3B771B003B8054 /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A217D1F1F3B771B003B8054 /* ContactDetailViewController.swift */; };
+		5A217D221F3B90FA003B8054 /* ContactDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A217D211F3B90FA003B8054 /* ContactDetailTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,8 @@
 		5A217D171F3B673C003B8054 /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		5A217D1A1F3B6DA2003B8054 /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		5A217D1C1F3B6F39003B8054 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
+		5A217D1F1F3B771B003B8054 /* ContactDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
+		5A217D211F3B90FA003B8054 /* ContactDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactDetailTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +98,10 @@
 				5A217CE91F3B5B2B003B8054 /* AppDelegate.swift */,
 				5A217D1A1F3B6DA2003B8054 /* ContactsViewController.swift */,
 				5A217D1C1F3B6F39003B8054 /* ContactTableViewCell.swift */,
-				5A217D191F3B6744003B8054 /* Extensions */,
+				5A217D1F1F3B771B003B8054 /* ContactDetailViewController.swift */,
+				5A217D211F3B90FA003B8054 /* ContactDetailTableViewCell.swift */,
 				5A217D0E1F3B5CF0003B8054 /* Core Data */,
+				5A217D191F3B6744003B8054 /* Extensions */,
 				5A217CF31F3B5B2B003B8054 /* Assets.xcassets */,
 				5A217CF51F3B5B2B003B8054 /* LaunchScreen.storyboard */,
 				5A217CF81F3B5B2B003B8054 /* Info.plist */,
@@ -243,10 +249,12 @@
 				5A217CEA1F3B5B2B003B8054 /* AppDelegate.swift in Sources */,
 				5A217D0D1F3B5CE9003B8054 /* ContactsData.swift in Sources */,
 				5A217D1B1F3B6DA2003B8054 /* ContactsViewController.swift in Sources */,
+				5A217D221F3B90FA003B8054 /* ContactDetailTableViewCell.swift in Sources */,
 				5A217D1D1F3B6F39003B8054 /* ContactTableViewCell.swift in Sources */,
 				5A217CF21F3B5B2B003B8054 /* Contacts.xcdatamodeld in Sources */,
 				5A217D131F3B66E2003B8054 /* Contact+CoreDataClass.swift in Sources */,
 				5A217D151F3B66E2003B8054 /* ManagedObject+CoreDataClass.swift in Sources */,
+				5A217D201F3B771B003B8054 /* ContactDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

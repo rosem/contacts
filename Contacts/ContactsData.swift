@@ -63,17 +63,21 @@ class ContactsData {
     func seedContactsData() {
         let seeded = UserDefaults.standard.bool(forKey: SeedContactsDataKey)
         if !seeded {
+       
             let contacts = [
-                (firstName: "Michael", lastName: "Rose", dateOfBirth: "11/11/1983", phoneNumber: "(906) 440-8131", zipCode: "49688"),
-                (firstName: "Emma", lastName: "Rose", dateOfBirth: "8/25/2016", phoneNumber: "(231) 555-5555", zipCode: "49688"),
-                (firstName: "Jessica", lastName: "Hubl", dateOfBirth: "2/18/1982", phoneNumber: "(402) 203-7657", zipCode: "49688")
+                (firstName: "Michael", lastName: "Rose", dateOfBirth: "11-11-1983", phoneNumber: "(906) 440-8131", zipCode: "49688"),
+                (firstName: "Emma", lastName: "Rose", dateOfBirth: "8-25-2016", phoneNumber: "(231) 555-5555", zipCode: "49688"),
+                (firstName: "Jessica", lastName: "Hubl", dateOfBirth: "2-18-1982", phoneNumber: "(402) 203-7657", zipCode: "49688")
             ]
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "d-m-yyyy"
             
             for contact in contacts {
                 let newContact = NSEntityDescription.insertNewObject(forEntityName: "Contact", into: mainContext) as! Contact
                 newContact.firstName = contact.firstName
                 newContact.lastName = contact.lastName
-                newContact.dateOfBirth = contact.dateOfBirth
+                newContact.dateOfBirth = dateFormatter.date(from: contact.dateOfBirth)! as NSDate
                 newContact.phoneNumber = contact.phoneNumber
                 newContact.zipCode = contact.zipCode
             }

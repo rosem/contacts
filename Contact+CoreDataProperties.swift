@@ -18,12 +18,26 @@ extension Contact {
 
     @NSManaged public var firstName: String!
     @NSManaged public var lastName: String!
-    @NSManaged public var dateOfBirth: String!
+    @NSManaged public var dateOfBirth: NSDate!
     @NSManaged public var phoneNumber: String!
     @NSManaged public var zipCode: String!
     
     public var displayName: String {
         return lastName + ", " + firstName
+    }
+    
+    public var dateOfBirthString: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d-m-yyyy"
+        return dateFormatter.string(from: dateOfBirth as Date)
+    }
+    
+    public var age: Int {
+        let now = Date()
+        let calendar = Calendar.current
+        let ageComponents = calendar.dateComponents([.year], from: dateOfBirth as Date, to: now)
+        
+        return ageComponents.year!
     }
 
 }

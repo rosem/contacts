@@ -30,7 +30,7 @@ class ContactsViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didCreate))
         
         // Table view
-        tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: ContactTableViewCell.ReuseIdentifier)
+        tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: ContactTableViewCell.reuseIdentifier)
         tableView.tableFooterView = UIView()
         
         // NSFetchedResultsController<Contacts>
@@ -52,10 +52,10 @@ class ContactsViewController: UITableViewController {
     @objc private func didCreate() {
         /*
         let childContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        childContext.parent = CoreData.shared.mainContext
-        let note = NSEntityDescription.insertNewObject(forEntityName: "Note", into: childContext) as! Note
+        childContext.parent = ContactsData.shared.mainContext
+        let contact = NSEntityDescription.insertNewObject(forEntityName: "Contact", into: childContext) as! Contact
         
-        let viewController = NoteEditViewController(note: note, managedObjectContext: childContext)
+        let viewController = ContactEditViewController(contact: contact, managedObjectContext: childContext)
         viewController.delegate = self
         let navController = UINavigationController(rootViewController: viewController)
         present(navController, animated: true, completion: nil)
@@ -77,7 +77,7 @@ class ContactsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ContactTableViewCell.ReuseIdentifier, for: indexPath) as! ContactTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ContactTableViewCell.reuseIdentifier, for: indexPath) as! ContactTableViewCell
         let contact = fetchedResultsController.object(at: indexPath)
         
         cell.configure(contact: contact)
@@ -86,22 +86,13 @@ class ContactsViewController: UITableViewController {
     }
     
     // MARK: - Table view delegate
-    
-    /*
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let note = fetchedResultsController.object(at: indexPath)
-        
-        let childContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        childContext.parent = note.managedObjectContext
-        let editNote = childContext.object(with: note.objectID) as! Note
-        
-        let viewController = NoteEditViewController(note: editNote, managedObjectContext: childContext)
-        viewController.delegate = self
-        let navController = UINavigationController(rootViewController: viewController)
-        present(navController, animated: true, completion: nil)
-    }
-    */
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let contact = fetchedResultsController.object(at: indexPath)
+        let viewController = ContactDetailViewController(contact: contact)
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
 }
 
 extension ContactsViewController: NSFetchedResultsControllerDelegate {
@@ -156,27 +147,3 @@ extension ContactsViewController: NSFetchedResultsControllerDelegate {
     
 }
 
-/*
-
-extension ContactsViewController: NoteEditViewControllerDelegate {
-    
-    func noteEditViewControllerDidFinish(viewController: NoteEditViewController, save: Bool) {
-        var task:(() -> Void)? = nil
-        if save && viewController.managedObjectContext.hasChanges {
-            task = {
-                do {
-                    try viewController.managedObjectContext.save() // Save changes to parent context
-                } catch {
-                    let error = error as NSError
-                    fatalError("Unresolved error \(error), \(error.userInfo)")
-                }
-                CoreData.shared.saveContext() // Save changes to persistant store
-            }
-        }
-        
-        dismiss(animated: true, completion: task)
-    }
-    
-}
-
-*/

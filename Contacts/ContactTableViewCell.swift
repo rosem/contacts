@@ -10,11 +10,11 @@ import UIKit
 
 class ContactTableViewCell: UITableViewCell {
 
-    static let ReuseIdentifier = "ContactTableViewCellReuseIdentifier"
+    static let reuseIdentifier = "ContactTableViewCellReuseIdentifier"
 
     var label: UILabel!
     
-    // Would normally use Snapkit (http://snapkit.io/)
+    // Would normally use Snapkit for programmatic UI (http://snapkit.io/)
     private var cnX: NSLayoutConstraint!
     private var cnY: NSLayoutConstraint!
     private var cnWidth: NSLayoutConstraint!
@@ -25,7 +25,7 @@ class ContactTableViewCell: UITableViewCell {
         
         // Label
         label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 18.0)
+        label.font = UIFont.systemFont(ofSize: 17.0)
         label.numberOfLines = 1
         label.lineBreakMode = .byTruncatingTail
         contentView.addSubview(label)
