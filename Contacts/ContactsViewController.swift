@@ -30,6 +30,7 @@ class ContactsViewController: BaseTableViewController {
         super.viewDidLoad()
 
         title = "Contacts"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didAction))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didCreate))
         
         // Search results view controller
@@ -60,6 +61,19 @@ class ContactsViewController: BaseTableViewController {
     }
     
     // MARK: - Private
+    
+    @objc private func didAction() {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let download = UIAlertAction(title: "Download & Merge 1,000 Contacts", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            ContactsData.shared.seedRemoteContactsData()
+        })
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        actionSheet.addAction(download)
+        actionSheet.addAction(cancel)
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
     
     @objc private func didCreate() {
         /*
@@ -131,32 +145,26 @@ extension ContactsViewController: UISearchResultsUpdating {
         let strippedString = searchController.searchBar.text!.trimmingCharacters(in: whitespaceCharacterSet)
         let searchItems = strippedString.components(separatedBy: " ") as [String]
         
+        // Each "search item" needs to match the FIRST or LAST name to qualify
         let andMatchPredicates: [NSPredicate] = searchItems.map { searchString in
-            
             var searchItemsPredicate = [NSPredicate]()
             let searchStringExpression = NSExpression(forConstantValue: searchString)
             
             let firstNameExpression = NSExpression(forKeyPath: "firstName")
             let firstNameSearchComparisonPredicate = NSComparisonPredicate(leftExpression: firstNameExpression, rightExpression: searchStringExpression, modifier: .direct, type: .contains, options: .caseInsensitive)
-            
             searchItemsPredicate.append(firstNameSearchComparisonPredicate)
             
             let lastNameExpression = NSExpression(forKeyPath: "lastName")
             let lastNameSearchComparisonPredicate = NSComparisonPredicate(leftExpression: lastNameExpression, rightExpression: searchStringExpression, modifier: .direct, type: .contains, options: .caseInsensitive)
-            
             searchItemsPredicate.append(lastNameSearchComparisonPredicate)
             
             let orMatchPredicate = NSCompoundPredicate(orPredicateWithSubpredicates:searchItemsPredicate)
-            
             return orMatchPredicate
         }
         
-        // Match up the fields of the Product object.
         let finalCompoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: andMatchPredicates)
-        
         let filteredResults = searchResults.filter { finalCompoundPredicate.evaluate(with: $0) }
         
-        // Hand over the filtered results to our search results table.
         searchResultsViewController.filteredContacts = filteredResults
         searchResultsViewController.tableView.reloadData()
     }

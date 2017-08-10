@@ -20,6 +20,7 @@ extension ManagedObject {
     public var uuid: String! {
         return uuidValue
     }
+    @NSManaged public var uuidServer: String?
     
     @NSManaged public var dateCreated: NSDate!
     @NSManaged public var dateModified: NSDate!

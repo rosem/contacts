@@ -68,36 +68,30 @@ class ContactDetailViewController: UITableViewController {
         
         switch indexPath.row {
         case 0:
-            cell.label.text = "First Name"
-            cell.textField.text = contact.firstName
-            cell.textField.autocapitalizationType = .words
-            cell.textField.keyboardType = .default
+            cell.detailLabel.text = "First Name"
+            cell.mainLabel.text = contact.firstName
             break
         case 1:
-            cell.label.text = "Last Name"
-            cell.textField.text = contact.lastName
-            cell.textField.autocapitalizationType = .words
-            cell.textField.keyboardType = .default
+            cell.detailLabel.text = "Last Name"
+            cell.mainLabel.text = contact.lastName
             break
         case 2:
-            cell.label.text = "Age"
-            cell.textField.text = String(contact.age)
-            //
+            cell.detailLabel.text = "Age"
+            cell.mainLabel.text = String(contact.age)
             break
         case 3:
-            cell.label.text = "Date of Birth"
-            cell.textField.text = contact.dateOfBirthString
-            //
+            cell.detailLabel.text = "Date of Birth"
+            cell.mainLabel.text = contact.dateOfBirthString
             break
         case 4:
-            cell.label.text = "Phone"
-            cell.textField.text = contact.phoneNumber
-            cell.textField.keyboardType = .numberPad
+            cell.detailLabel.text = "Phone"
+            cell.mainLabel.text = contact.phoneNumber
+            cell.accessoryType = .disclosureIndicator
             break
         case 5:
-            cell.label.text = "ZIP"
-            cell.textField.text = contact.zipCode
-            cell.textField.keyboardType = .numberPad
+            cell.detailLabel.text = "ZIP"
+            cell.mainLabel.text = contact.zipCode
+            cell.accessoryType = .disclosureIndicator
             break
         default: break
         }

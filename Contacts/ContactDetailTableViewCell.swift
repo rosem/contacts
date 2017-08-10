@@ -12,8 +12,8 @@ class ContactDetailTableViewCell: UITableViewCell {
 
     static let reuseIdentifier = "ContactDetailTableViewCellReuseIdentifier"
     
-    var label: UILabel!
-    var textField: UITextField!
+    var detailLabel: UILabel!
+    var mainLabel: UILabel!
     
     // Would normally use Snapkit for programmatic UI (http://snapkit.io/)
     private var cnX: NSLayoutConstraint!
@@ -27,31 +27,31 @@ class ContactDetailTableViewCell: UITableViewCell {
         selectionStyle = .none
         
         // Label
-        label = UILabel()
-        // label.backgroundColor = UIColor.yellow
-        label.font = UIFont.boldSystemFont(ofSize: 14.0)
-        label.textColor = UIColor.lightGray
-        label.numberOfLines = 1
-        contentView.addSubview(label)
+        detailLabel = UILabel()
+        // detailLabel.backgroundColor = UIColor.yellow
+        detailLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
+        detailLabel.textColor = UIColor.lightGray
+        detailLabel.numberOfLines = 1
+        contentView.addSubview(detailLabel)
         
-        label.translatesAutoresizingMaskIntoConstraints = false
-        cnX = NSLayoutConstraint(item: label, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: 20)
-        cnY = NSLayoutConstraint(item: label, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 10)
-        cnHeight = NSLayoutConstraint(item: label, attribute: .height, relatedBy: .equal, toItem: contentView, attribute: .height, multiplier: 0, constant: 16.0)
+        detailLabel.translatesAutoresizingMaskIntoConstraints = false
+        cnX = NSLayoutConstraint(item: detailLabel, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: 20)
+        cnY = NSLayoutConstraint(item: detailLabel, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 10)
+        cnHeight = NSLayoutConstraint(item: detailLabel, attribute: .height, relatedBy: .equal, toItem: contentView, attribute: .height, multiplier: 0, constant: 16.0)
         contentView.addConstraints([cnX, cnY, cnHeight])
         
         // Text field
-        textField = UITextField()
-        // textField.backgroundColor = UIColor.orange
-        textField.autocorrectionType = .no
-        textField.font = UIFont.systemFont(ofSize: 17.0)
-        contentView.addSubview(textField)
+        mainLabel = UILabel()
+        // mainLabel.backgroundColor = UIColor.yellow
+        mainLabel.font = UIFont.systemFont(ofSize: 17.0)
+        mainLabel.numberOfLines = 1
+        contentView.addSubview(mainLabel)
         
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        cnX = NSLayoutConstraint(item: textField, attribute: .left, relatedBy: .equal, toItem: label, attribute: .left, multiplier: 1, constant: 0)
-        cnY = NSLayoutConstraint(item: textField, attribute: .top, relatedBy: .equal, toItem: label, attribute: .bottom, multiplier: 1, constant: 10)
-        cnWidth = NSLayoutConstraint(item: textField, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: -20)
-        cnHeight = NSLayoutConstraint(item: textField, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: -10)
+        mainLabel.translatesAutoresizingMaskIntoConstraints = false
+        cnX = NSLayoutConstraint(item: mainLabel, attribute: .left, relatedBy: .equal, toItem: detailLabel, attribute: .left, multiplier: 1, constant: 0)
+        cnY = NSLayoutConstraint(item: mainLabel, attribute: .top, relatedBy: .equal, toItem: detailLabel, attribute: .bottom, multiplier: 1, constant: 10)
+        cnWidth = NSLayoutConstraint(item: mainLabel, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: -20)
+        cnHeight = NSLayoutConstraint(item: mainLabel, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: -10)
         contentView.addConstraints([cnX, cnY, cnWidth, cnHeight])
     }
     
@@ -62,12 +62,10 @@ class ContactDetailTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        label.text = nil
+        detailLabel.text = nil
+        mainLabel.text = nil
         
-        textField.text = nil
-        textField.keyboardType = .default
-        textField.autocorrectionType = .default
-        textField.autocapitalizationType = .sentences
+        accessoryType = .none
     }
 
 }

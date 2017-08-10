@@ -28,7 +28,7 @@ extension Contact {
     
     public var dateOfBirthString: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "d-m-yyyy"
+        dateFormatter.dateStyle = .medium
         return dateFormatter.string(from: dateOfBirth as Date)
     }
     

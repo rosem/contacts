@@ -10,10 +10,11 @@
     <entity name="ManagedObject" representedClassName="ManagedObject" syncable="YES">
         <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="dateModified" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="uuidServer" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uuidValue" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="Contact" positionX="-63" positionY="-18" width="128" height="120"/>
-        <element name="ManagedObject" positionX="-54" positionY="27" width="128" height="90"/>
+        <element name="ManagedObject" positionX="-54" positionY="27" width="128" height="105"/>
     </elements>
 </model>
