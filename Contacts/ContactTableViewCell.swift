@@ -47,15 +47,5 @@ class ContactTableViewCell: UITableViewCell {
         
         label.text = nil
     }
-    
-    func configure(contact: Contact, animated: Bool = false) {
-        if animated {
-            UIView.transition(with: contentView, duration: 0.3, options: .transitionCrossDissolve, animations: {
-                self.label.text = contact.displayName
-            }, completion: nil)
-        } else {
-            self.label.text = contact.displayName
-        }
-    }
 
 }

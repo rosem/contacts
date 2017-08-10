@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ContactsViewController: UITableViewController {
+class ContactsViewController: BaseTableViewController {
     
     lazy var fetchedResultsController: NSFetchedResultsController<Contact> = {
         let request: NSFetchRequest<Contact> = Contact.fetchRequest()
@@ -23,15 +23,27 @@ class ContactsViewController: UITableViewController {
         return fetchedResultsController
     }()
     
+    var searchController: UISearchController!
+    var searchResultsViewController: SearchResultsViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Contacts"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didCreate))
         
-        // Table view
-        tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: ContactTableViewCell.reuseIdentifier)
-        tableView.tableFooterView = UIView()
+        // Search results view controller
+        searchResultsViewController = SearchResultsViewController(style: .plain)
+        searchResultsViewController.tableView.delegate = self
+        
+        // Search controller
+        searchController = UISearchController(searchResultsController: searchResultsViewController)
+        searchController.searchResultsUpdater = self
+        tableView.tableHeaderView = searchController.searchBar
+        
+        searchController.searchBar.delegate = self
+        
+        definesPresentationContext = true
         
         // NSFetchedResultsController<Contacts>
         do {
@@ -78,9 +90,9 @@ class ContactsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ContactTableViewCell.reuseIdentifier, for: indexPath) as! ContactTableViewCell
-        let contact = fetchedResultsController.object(at: indexPath)
         
-        cell.configure(contact: contact)
+        let contact = fetchedResultsController.object(at: indexPath)
+        configureCell(cell, forContact: contact)
         
         return cell
     }
@@ -88,9 +100,65 @@ class ContactsViewController: UITableViewController {
     // MARK: - Table view delegate
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let contact = fetchedResultsController.object(at: indexPath)
+        let contact: Contact
+        
+        if tableView == self.tableView {
+            contact = fetchedResultsController.object(at: indexPath)
+        } else {
+            contact = searchResultsViewController.filteredContacts[indexPath.row]
+        }
+        
         let viewController = ContactDetailViewController(contact: contact)
         navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+}
+
+extension ContactsViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+}
+
+extension ContactsViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchResults = fetchedResultsController.fetchedObjects!
+        
+        let whitespaceCharacterSet = CharacterSet.whitespaces
+        let strippedString = searchController.searchBar.text!.trimmingCharacters(in: whitespaceCharacterSet)
+        let searchItems = strippedString.components(separatedBy: " ") as [String]
+        
+        let andMatchPredicates: [NSPredicate] = searchItems.map { searchString in
+            
+            var searchItemsPredicate = [NSPredicate]()
+            let searchStringExpression = NSExpression(forConstantValue: searchString)
+            
+            let firstNameExpression = NSExpression(forKeyPath: "firstName")
+            let firstNameSearchComparisonPredicate = NSComparisonPredicate(leftExpression: firstNameExpression, rightExpression: searchStringExpression, modifier: .direct, type: .contains, options: .caseInsensitive)
+            
+            searchItemsPredicate.append(firstNameSearchComparisonPredicate)
+            
+            let lastNameExpression = NSExpression(forKeyPath: "lastName")
+            let lastNameSearchComparisonPredicate = NSComparisonPredicate(leftExpression: lastNameExpression, rightExpression: searchStringExpression, modifier: .direct, type: .contains, options: .caseInsensitive)
+            
+            searchItemsPredicate.append(lastNameSearchComparisonPredicate)
+            
+            let orMatchPredicate = NSCompoundPredicate(orPredicateWithSubpredicates:searchItemsPredicate)
+            
+            return orMatchPredicate
+        }
+        
+        // Match up the fields of the Product object.
+        let finalCompoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: andMatchPredicates)
+        
+        let filteredResults = searchResults.filter { finalCompoundPredicate.evaluate(with: $0) }
+        
+        // Hand over the filtered results to our search results table.
+        searchResultsViewController.filteredContacts = filteredResults
+        searchResultsViewController.tableView.reloadData()
     }
     
 }
@@ -124,20 +192,6 @@ extension ContactsViewController: NSFetchedResultsControllerDelegate {
             tableView.reloadRows(at: [indexPath!], with: .fade)
         case .move:
             tableView.moveRow(at: indexPath!, to: newIndexPath!)
-            
-            // Can't "reload" and "move" to same cell simultaneously (according to UIKit).
-            
-            // This is an issue because I'm sorting on date modified and also displaying it within a
-            // label in the UITableViewCell. The cell moves to the correct location (top) after editing,
-            // but the label text doesn't update.
-            
-            // To have it look perfect you have to manually crossfade the label text, while the UITableView
-            // does the "move" animation.
-            
-            let cell = tableView.cellForRow(at: indexPath!) as! ContactTableViewCell
-            let contact = fetchedResultsController.object(at: newIndexPath!)
-            
-            cell.configure(contact: contact, animated: true)
         }
     }
     
