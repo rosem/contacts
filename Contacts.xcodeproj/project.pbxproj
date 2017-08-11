@@ -295,7 +295,7 @@
 				TargetAttributes = {
 					5A217CE51F3B5B2B003B8054 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = V5QJ4WMMXK;
+						DevelopmentTeam = ELXT2RBC33;
 						ProvisioningStyle = Automatic;
 					};
 					5A217CFC1F3B5B2B003B8054 = {
@@ -597,7 +597,7 @@
 			baseConfigurationReference = 6BB6DFBFEB9B5DFCD193F6E7 /* Pods-Contacts.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = V5QJ4WMMXK;
+				DEVELOPMENT_TEAM = ELXT2RBC33;
 				INFOPLIST_FILE = Contacts/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosem.Contacts;
@@ -611,7 +611,7 @@
 			baseConfigurationReference = 6796004462827BD7130211F2 /* Pods-Contacts.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = V5QJ4WMMXK;
+				DEVELOPMENT_TEAM = ELXT2RBC33;
 				INFOPLIST_FILE = Contacts/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosem.Contacts;

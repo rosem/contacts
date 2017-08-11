@@ -64,9 +64,7 @@ class ContactsData {
         if !seeded {
        
             let contacts = [
-                (firstName: "Michael", lastName: "Rose", dateOfBirth: "11/11/1983", phoneNumber: "(906) 440-8131", zipCode: "49688"),
-                (firstName: "Emma", lastName: "Rose", dateOfBirth: "08/25/2016", phoneNumber: "(231) 555-5555", zipCode: "49688"),
-                (firstName: "Jessica", lastName: "Hubl", dateOfBirth: "02/18/1982", phoneNumber: "(402) 203-7657", zipCode: "49688")
+                (firstName: "Michael", lastName: "Rose", dateOfBirth: "11/11/1983", phoneNumber: "(906) 440-8131", zipCode: "49688")
             ]
             
             let dateFormatter = DateFormatter()

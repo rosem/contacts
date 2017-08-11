@@ -120,17 +120,11 @@ class ContactDetailViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 3 {
             // Phone
-            // TODO: Better parsing of phone number
-            var number = contact.phoneNumber!
-            number = number.replacingOccurrences(of: "(", with: "")
-            number = number.replacingOccurrences(of: ")", with: "")
-            number = number.replacingOccurrences(of: "-", with: "")
-            number = number.replacingOccurrences(of: " ", with: "")
-            
-            if let phoneCallURL:URL = URL(string: "tel:\(number)") {
+            let phoneNumber = contact.phoneNumberOnly
+            if let phoneCallURL:URL = URL(string: "tel:\(phoneNumber)") {
                 let application: UIApplication = UIApplication.shared
                 if (application.canOpenURL(phoneCallURL)) {
-                    let alertController = UIAlertController(title: "Call Contact", message: "Are you sure you want to call \n\(number)?", preferredStyle: .alert)
+                    let alertController = UIAlertController(title: "Call Contact", message: "Are you sure you want to call \n\(contact.phoneNumber!)?", preferredStyle: .alert)
                     let yesPressed = UIAlertAction(title: "Yes", style: .default, handler: { (action) in
                         application.open(phoneCallURL, options: [:], completionHandler: nil)
                     })

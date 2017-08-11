@@ -44,5 +44,16 @@ extension Contact {
         
         return ageComponents.year!
     }
+    
+    public var phoneNumberOnly: String {
+        // TODO: Better parsing of phone number
+        var number = phoneNumber!
+        number = number.replacingOccurrences(of: "(", with: "")
+        number = number.replacingOccurrences(of: ")", with: "")
+        number = number.replacingOccurrences(of: "-", with: "")
+        number = number.replacingOccurrences(of: " ", with: "")
+        
+        return number
+    }
 
 }
