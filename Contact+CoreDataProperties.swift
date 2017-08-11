@@ -26,6 +26,11 @@ extension Contact {
         return lastName + ", " + firstName
     }
     
+    public var sectionLetter: String {
+        let letter = lastName[lastName.startIndex]
+        return String(letter)
+    }
+    
     public var dateOfBirthString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium

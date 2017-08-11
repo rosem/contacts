@@ -17,21 +17,66 @@ class ContactsViewController: BaseTableViewController {
         let firstNameSort = NSSortDescriptor(key: "firstName", ascending: true)
         request.sortDescriptors = [lastNameSort, firstNameSort]
         
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: ContactsData.shared.mainContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: ContactsData.shared.mainContext, sectionNameKeyPath: "sectionLetter", cacheName: nil)
         fetchedResultsController.delegate = self
         
         return fetchedResultsController
     }()
     
+    var network: NetworkReachability!
+    
     var searchController: UISearchController!
     var searchResultsViewController: SearchResultsViewController!
+    
+    var actionItem: UIBarButtonItem {
+        let actionItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didAction))
+        actionItem.tag = 1
+        
+        return actionItem
+    }
+    var activityItem: UIBarButtonItem {
+        let activityView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        activityView.startAnimating()
+        let activityItem = UIBarButtonItem(customView: activityView)
+        activityItem.tag = 2
+        
+        return activityItem
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Network reachability
+        network = NetworkReachability()
+        do {
+            try network.startNotifier()
+        } catch {
+            print("Error starting network notifier")
+        }
+        
         title = "Contacts"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didAction))
+        navigationItem.leftBarButtonItem = actionItem
+        navigationItem.leftBarButtonItem?.isEnabled = network.isReachable
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didCreate))
+        
+        network.whenReachable = { reachability in
+            if let item = self.navigationItem.leftBarButtonItem {
+                if item.tag == 1 {
+                    item.isEnabled = true
+                }
+            }
+        }
+        
+        network.whenUnreachable = { reachability in
+            if let item = self.navigationItem.leftBarButtonItem {
+                if item.tag == 1 {
+                    item.isEnabled = false
+                }
+            }
+        }
+        
+        // Notification
+        NotificationCenter.default.addObserver(self, selector: #selector(didFinish), name: ContactsData.ContactsDataDidFinishRemoteSeeding, object: nil)
         
         // Search results view controller
         searchResultsViewController = SearchResultsViewController(style: .plain)
@@ -62,11 +107,25 @@ class ContactsViewController: BaseTableViewController {
     
     // MARK: - Private
     
+    @objc private func didFinish() {
+        let item = self.actionItem
+        item.isEnabled = network.isReachable
+        self.navigationItem.setLeftBarButton(item, animated: true)
+    }
+    
     @objc private func didAction() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let download = UIAlertAction(title: "Download & Merge 1,000 Contacts", style: .default, handler: {
+        let download = UIAlertAction(title: "Download/Merge 1,000 Contacts", style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
-            ContactsData.shared.seedRemoteContactsData()
+            if self.network.isReachable {
+                self.navigationItem.setLeftBarButton(self.activityItem, animated: true)
+                ContactsData.shared.seedRemoteContactsData()
+            } else {
+                let notification = InternalMessageNotificationView(message: "Merge failed. No internet connection.")
+                notification.label.textColor = UIColor.RGB(r: 238, g: 72, b: 94)
+                notification.priority = .high
+                InternalNotificationManager.shared.queue(notification: notification)
+            }
         })
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         actionSheet.addAction(download)
@@ -95,6 +154,14 @@ class ContactsViewController: BaseTableViewController {
             return 0
         }
         return sections.count
+    }
+    
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return fetchedResultsController.sectionIndexTitles
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController.sectionIndexTitles[section]
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -11,7 +11,8 @@ import CoreData
 import SwiftyJSON
 
 class ContactsData {
-    
+
+    public static let ContactsDataDidFinishRemoteSeeding = NSNotification.Name(rawValue: "ContactsDataDidFinishRemoteSeeding")
     let SeedContactsDataKey = "SeedContactsDataKey"
     
     static let shared = ContactsData()
@@ -89,7 +90,16 @@ class ContactsData {
     func seedRemoteContactsData() {
         let url = URL(string: "http://rosem.com/work/random/contacts-seed.json")
         URLSession.shared.dataTask(with:url!, completionHandler: {(data, response, error) in
-            guard let data = data, error == nil else { return }
+            guard let data = data, error == nil else {
+                let notification = InternalMessageNotificationView(message: "Merge failed. No data received.")
+                notification.label.textColor = UIColor.RGB(r: 238, g: 72, b: 94)
+                notification.priority = .high
+                InternalNotificationManager.shared.queue(notification: notification)
+                
+                NotificationCenter.default.post(name: ContactsData.ContactsDataDidFinishRemoteSeeding, object: self, userInfo: nil)
+                
+                return
+            }
             let json = JSON(data: data)
             
             let privateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
@@ -97,6 +107,7 @@ class ContactsData {
             privateContext.perform({
                 
                 // Get all current UUIDs from the server
+                var count = 0
                 let request: NSFetchRequest<Contact> = Contact.fetchRequest()
                 do {
                     let contacts = try privateContext.fetch(request)
@@ -111,6 +122,8 @@ class ContactsData {
                             newContact.phoneNumber = contactJSON.1["phone"].stringValue
                             newContact.zipCode = contactJSON.1["zip"].stringValue
                             newContact.uuidServer = uuidServer
+                            
+                            count = count + 1
                         }
                     }
                     
@@ -123,9 +136,23 @@ class ContactsData {
                             fatalError("Failure to save background context: \(error)")
                         }
                     }
+                    
+                    DispatchQueue.main.async {
+                        // Notifify user of contacts merged
+                        let countString = count == 1000 ? "1,000" : String(count)
+                        let text = count == 1 ? "contact" : "contacts"
+                        let message = "\(countString) \(text) merged."
+                        
+                        let notification = InternalMessageNotificationView(message: message)
+                        InternalNotificationManager.shared.queue(notification: notification)
+                        
+                        NotificationCenter.default.post(name: ContactsData.ContactsDataDidFinishRemoteSeeding, object: self, userInfo: nil)
+                    }
+                    
                 } catch {
                     fatalError("Failed to fetch contacts: \(error)")
                 }
+
             })
         }).resume()
     }
