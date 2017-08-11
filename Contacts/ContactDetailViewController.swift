@@ -41,7 +41,8 @@ class ContactDetailViewController: UITableViewController {
         view.backgroundColor = UIColor.white
         
         // Table view
-        tableView.register(ContactDetailTableViewCell.self, forCellReuseIdentifier: ContactDetailTableViewCell.reuseIdentifier)
+        tableView.register(ReadCell.self, forCellReuseIdentifier: ReadCell.reuseIdentifier)
+        tableView.register(ReadDoubleCell.self, forCellReuseIdentifier: ReadDoubleCell.reuseIdentifier)
         tableView.tableFooterView = UIView()
     }
     
@@ -60,40 +61,52 @@ class ContactDetailViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return 5
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ContactDetailTableViewCell.reuseIdentifier, for: indexPath) as! ContactDetailTableViewCell
         
-        switch indexPath.row {
-        case 0:
-            cell.detailLabel.text = "First Name"
-            cell.mainLabel.text = contact.firstName
-            break
-        case 1:
-            cell.detailLabel.text = "Last Name"
-            cell.mainLabel.text = contact.lastName
-            break
-        case 2:
-            cell.detailLabel.text = "Age"
-            cell.mainLabel.text = String(contact.age)
-            break
-        case 3:
-            cell.detailLabel.text = "Date of Birth"
-            cell.mainLabel.text = contact.dateOfBirthString
-            break
-        case 4:
-            cell.detailLabel.text = "Phone"
-            cell.mainLabel.text = contact.phoneNumber
-            cell.accessoryType = .disclosureIndicator
-            break
-        case 5:
-            cell.detailLabel.text = "ZIP"
-            cell.mainLabel.text = contact.zipCode
-            cell.accessoryType = .disclosureIndicator
-            break
-        default: break
+        var cell: UITableViewCell
+        if indexPath.row == 2 {
+            // Double
+            let double = tableView.dequeueReusableCell(withIdentifier: ReadDoubleCell.reuseIdentifier, for: indexPath) as! ReadDoubleCell
+            double.detailLeftLabel.text = "Date of Birth"
+            double.mainLeftLabel.text = contact.dateOfBirthString
+            double.detailRightLabel.text = "Age"
+            double.mainRightLabel.text = String(contact.age)
+            
+            cell = double
+        } else {
+            // Single
+            let single = tableView.dequeueReusableCell(withIdentifier: ReadCell.reuseIdentifier, for: indexPath) as! ReadCell
+            
+            switch indexPath.row {
+            case 0:
+                single.detailLabel.text = "First Name"
+                single.mainLabel.text = contact.firstName
+                break
+            case 1:
+                single.detailLabel.text = "Last Name"
+                single.mainLabel.text = contact.lastName
+                break
+            case 3:
+                single.detailLabel.text = "Phone"
+                single.mainLabel.text = contact.phoneNumber
+                single.mainLabel.textColor = UIColor.RGB(r: 21, g: 126, b: 251)
+                // single.accessoryType = .disclosureIndicator
+                // single.selectionStyle = .default
+                break
+            case 4:
+                single.detailLabel.text = "ZIP"
+                single.mainLabel.text = contact.zipCode
+                single.mainLabel.textColor = UIColor.RGB(r: 21, g: 126, b: 251)
+                // single.accessoryType = .disclosureIndicator
+                // single.selectionStyle = .default
+                break
+            default: break
+            }
+            
+            cell = single
         }
         
         return cell
@@ -101,8 +114,43 @@ class ContactDetailViewController: UITableViewController {
     
     // MARK: - Table view delegate
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 3 {
+            // Phone
+            // TODO: Better parsing of phone number
+            var number = contact.phoneNumber!
+            number = number.replacingOccurrences(of: "(", with: "")
+            number = number.replacingOccurrences(of: ")", with: "")
+            number = number.replacingOccurrences(of: "-", with: "")
+            number = number.replacingOccurrences(of: " ", with: "")
+            
+            if let phoneCallURL:URL = URL(string: "tel:\(number)") {
+                let application: UIApplication = UIApplication.shared
+                if (application.canOpenURL(phoneCallURL)) {
+                    let alertController = UIAlertController(title: "Contact", message: "Are you sure you want to call \n\(number)?", preferredStyle: .alert)
+                    let yesPressed = UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+                        application.open(phoneCallURL, options: [:], completionHandler: nil)
+                    })
+                    let noPressed = UIAlertAction(title: "No", style: .default, handler: { (action) in
+                        
+                    })
+                    alertController.addAction(yesPressed)
+                    alertController.addAction(noPressed)
+                    present(alertController, animated: true, completion: nil)
+                }
+            }
+            
+        } else if indexPath.row == 4 {
+            // Map
+            let mapViewController = MapViewController(zipCode: contact.zipCode)
+            let navController = UINavigationController(rootViewController: mapViewController)
+            
+            present(navController, animated: true, completion: nil)
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 66.0
+        return 60.0
     }
 
 }
