@@ -17,6 +17,10 @@ class ContactsData {
     
     static let shared = ContactsData()
     
+    init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(contextDidSave), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
+    }
+
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
@@ -55,6 +59,14 @@ class ContactsData {
                 try context.save()
             } catch {
                 fatalError("Failure to save main context: \(error)")
+            }
+        }
+    }
+    
+    @objc private func contextDidSave(notification: Notification) {
+        if let context = notification.object as? NSManagedObjectContext {
+            if context != mainContext {
+                mainContext.mergeChanges(fromContextDidSave: notification)
             }
         }
     }
@@ -100,20 +112,18 @@ class ContactsData {
             }
             let json = JSON(data: data)
             
-            let privateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-            privateContext.parent = self.mainContext
-            privateContext.perform({
+            self.persistentContainer.performBackgroundTask({ (context) in
                 
                 // Get all current UUIDs from the server
                 var count = 0
                 let request: NSFetchRequest<Contact> = Contact.fetchRequest()
                 do {
-                    let contacts = try privateContext.fetch(request)
+                    let contacts = try context.fetch(request)
                     // Merge all incoming contacts, but don't allow duplicates
                     for contactJSON in json {
                         let uuidServer = contactJSON.1["id"].stringValue
                         if !contacts.contains(where: { $0.uuidServer == uuidServer }) {
-                            let newContact = NSEntityDescription.insertNewObject(forEntityName: "Contact", into: privateContext) as! Contact
+                            let newContact = NSEntityDescription.insertNewObject(forEntityName: "Contact", into: context) as! Contact
                             newContact.firstName = contactJSON.1["name"]["first"].stringValue
                             newContact.lastName = contactJSON.1["name"]["last"].stringValue
                             newContact.dateOfBirth = Date(timeIntervalSince1970: TimeInterval(contactJSON.1["dob"].intValue)) as NSDate
@@ -125,11 +135,10 @@ class ContactsData {
                         }
                     }
                     
-                    // Save to the background context, then the main context
-                    if privateContext.hasChanges {
+                    // Save to the background context
+                    if context.hasChanges {
                         do {
-                            try privateContext.save()
-                            self.saveMainContext()
+                            try context.save()
                         } catch {
                             fatalError("Failure to save background context: \(error)")
                         }
@@ -150,7 +159,6 @@ class ContactsData {
                 } catch {
                     fatalError("Failed to fetch contacts: \(error)")
                 }
-
             })
         }).resume()
     }

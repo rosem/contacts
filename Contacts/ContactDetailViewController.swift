@@ -124,16 +124,7 @@ class ContactDetailViewController: UITableViewController {
             if let phoneCallURL:URL = URL(string: "tel:\(phoneNumber)") {
                 let application: UIApplication = UIApplication.shared
                 if (application.canOpenURL(phoneCallURL)) {
-                    let alertController = UIAlertController(title: "Call Contact", message: "Are you sure you want to call \n\(contact.phoneNumber!)?", preferredStyle: .alert)
-                    let yesPressed = UIAlertAction(title: "Yes", style: .default, handler: { (action) in
-                        application.open(phoneCallURL, options: [:], completionHandler: nil)
-                    })
-                    let noPressed = UIAlertAction(title: "No", style: .default, handler: { (action) in
-                        
-                    })
-                    alertController.addAction(yesPressed)
-                    alertController.addAction(noPressed)
-                    present(alertController, animated: true, completion: nil)
+                    application.open(phoneCallURL, options: [:], completionHandler: nil)
                 } else {
                     let alertController = UIAlertController(title: "Call Contact", message: "This device does not support phone calls.", preferredStyle: .alert)
                     let ok = UIAlertAction(title: "Ok", style: .default, handler: { (action) in
