@@ -42,6 +42,7 @@ class ContactDetailViewController: UITableViewController {
         
         // Table view
         tableView.register(ReadCell.self, forCellReuseIdentifier: ReadCell.reuseIdentifier)
+        tableView.register(ReadButtonCell.self, forCellReuseIdentifier: ReadButtonCell.reuseButtonIdentifier)
         tableView.register(ReadDoubleCell.self, forCellReuseIdentifier: ReadDoubleCell.reuseIdentifier)
         tableView.tableFooterView = UIView()
     }
@@ -76,6 +77,22 @@ class ContactDetailViewController: UITableViewController {
             double.mainRightLabel.text = String(contact.age)
             
             cell = double
+        } else if indexPath.row == 3 || indexPath.row == 4 {
+            let button = tableView.dequeueReusableCell(withIdentifier: ReadButtonCell.reuseButtonIdentifier, for: indexPath) as! ReadButtonCell
+            
+            switch indexPath.row {
+            case 3:
+                button.detailLabel.text = "Phone Number"
+                button.mainLabel.text = contact.phoneNumber
+                break
+            case 4:
+                button.detailLabel.text = "Zip Code"
+                button.mainLabel.text = contact.zipCode
+                break
+            default: break
+            }
+            
+            cell = button
         } else {
             // Single
             let single = tableView.dequeueReusableCell(withIdentifier: ReadCell.reuseIdentifier, for: indexPath) as! ReadCell
@@ -88,20 +105,6 @@ class ContactDetailViewController: UITableViewController {
             case 1:
                 single.detailLabel.text = "Last Name"
                 single.mainLabel.text = contact.lastName
-                break
-            case 3:
-                single.detailLabel.text = "Phone"
-                single.mainLabel.text = contact.phoneNumber
-                single.mainLabel.textColor = UIColor.RGB(r: 21, g: 126, b: 251)
-                // single.accessoryType = .disclosureIndicator
-                // single.selectionStyle = .default
-                break
-            case 4:
-                single.detailLabel.text = "ZIP"
-                single.mainLabel.text = contact.zipCode
-                single.mainLabel.textColor = UIColor.RGB(r: 21, g: 126, b: 251)
-                // single.accessoryType = .disclosureIndicator
-                // single.selectionStyle = .default
                 break
             default: break
             }
@@ -127,7 +130,7 @@ class ContactDetailViewController: UITableViewController {
             if let phoneCallURL:URL = URL(string: "tel:\(number)") {
                 let application: UIApplication = UIApplication.shared
                 if (application.canOpenURL(phoneCallURL)) {
-                    let alertController = UIAlertController(title: "Contact", message: "Are you sure you want to call \n\(number)?", preferredStyle: .alert)
+                    let alertController = UIAlertController(title: "Call Contact", message: "Are you sure you want to call \n\(number)?", preferredStyle: .alert)
                     let yesPressed = UIAlertAction(title: "Yes", style: .default, handler: { (action) in
                         application.open(phoneCallURL, options: [:], completionHandler: nil)
                     })
@@ -136,6 +139,13 @@ class ContactDetailViewController: UITableViewController {
                     })
                     alertController.addAction(yesPressed)
                     alertController.addAction(noPressed)
+                    present(alertController, animated: true, completion: nil)
+                } else {
+                    let alertController = UIAlertController(title: "Call Contact", message: "This device does not support phone calls.", preferredStyle: .alert)
+                    let ok = UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+                        
+                    })
+                    alertController.addAction(ok)
                     present(alertController, animated: true, completion: nil)
                 }
             }

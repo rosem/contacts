@@ -34,6 +34,7 @@
 		5AB93A841F3D2EE0004B74F1 /* InternalSyncNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB93A7F1F3D2EE0004B74F1 /* InternalSyncNotificationView.swift */; };
 		5AB93A871F3DCA65004B74F1 /* ReadDoubleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB93A861F3DCA65004B74F1 /* ReadDoubleCell.swift */; };
 		5AB93A8A1F3DECA3004B74F1 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB93A891F3DECA3004B74F1 /* MapViewController.swift */; };
+		5AB93A8C1F3DF9D3004B74F1 /* ReadButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB93A8B1F3DF9D3004B74F1 /* ReadButtonCell.swift */; };
 		8DC506E887A8FC7F8B40F28A /* Pods_Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 262EECEC4613A8AFAAAD8944 /* Pods_Contacts.framework */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +80,7 @@
 		5AB93A7F1F3D2EE0004B74F1 /* InternalSyncNotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalSyncNotificationView.swift; sourceTree = "<group>"; };
 		5AB93A861F3DCA65004B74F1 /* ReadDoubleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadDoubleCell.swift; sourceTree = "<group>"; };
 		5AB93A891F3DECA3004B74F1 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		5AB93A8B1F3DF9D3004B74F1 /* ReadButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadButtonCell.swift; sourceTree = "<group>"; };
 		6796004462827BD7130211F2 /* Pods-Contacts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.release.xcconfig"; path = "Pods/Target Support Files/Pods-Contacts/Pods-Contacts.release.xcconfig"; sourceTree = "<group>"; };
 		6BB6DFBFEB9B5DFCD193F6E7 /* Pods-Contacts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Contacts/Pods-Contacts.debug.xcconfig"; sourceTree = "<group>"; };
 		7C25993B7AC52333739487EA /* Pods-ContactsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ContactsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ContactsTests/Pods-ContactsTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 				5A217D1F1F3B771B003B8054 /* ContactDetailViewController.swift */,
 				5AB93A891F3DECA3004B74F1 /* MapViewController.swift */,
 				5A217D211F3B90FA003B8054 /* ReadCell.swift */,
+				5AB93A8B1F3DF9D3004B74F1 /* ReadButtonCell.swift */,
 				5AB93A861F3DCA65004B74F1 /* ReadDoubleCell.swift */,
 			);
 			name = Read;
@@ -446,6 +449,7 @@
 				5AB93A671F3CE034004B74F1 /* SearchResultsViewController.swift in Sources */,
 				5A217D141F3B66E2003B8054 /* Contact+CoreDataProperties.swift in Sources */,
 				5A217CEA1F3B5B2B003B8054 /* AppDelegate.swift in Sources */,
+				5AB93A8C1F3DF9D3004B74F1 /* ReadButtonCell.swift in Sources */,
 				5A217D0D1F3B5CE9003B8054 /* ContactsData.swift in Sources */,
 				5A217D1B1F3B6DA2003B8054 /* ContactsViewController.swift in Sources */,
 				5AB93A8A1F3DECA3004B74F1 /* MapViewController.swift in Sources */,
