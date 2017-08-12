@@ -135,16 +135,14 @@ class ContactsViewController: BaseTableViewController {
     }
     
     @objc private func didCreate() {
-        /*
         let childContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         childContext.parent = ContactsData.shared.mainContext
         let contact = NSEntityDescription.insertNewObject(forEntityName: "Contact", into: childContext) as! Contact
         
-        let viewController = ContactEditViewController(contact: contact, managedObjectContext: childContext)
+        let viewController = ContactCreateViewController(contact: contact, managedObjectContext: childContext)
         viewController.delegate = self
         let navController = UINavigationController(rootViewController: viewController)
         present(navController, animated: true, completion: nil)
-        */
     }
 
     // MARK: - Table view data source
@@ -272,6 +270,26 @@ extension ContactsViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
+    }
+    
+}
+
+extension ContactsViewController: ContactCreateViewControllerDelegate {
+    
+    func contactCreateViewControllerDidFinish(viewController: ContactCreateViewController, save: Bool) {
+        if save {
+            let childContext = viewController.managedObjectContext!
+            if childContext.hasChanges {
+                do {
+                    try viewController.managedObjectContext.save()
+                    ContactsData.shared.saveMainContext()
+                } catch {
+                    fatalError("Failure to save child context: \(error)")
+                }
+            }
+        }
+        
+        dismiss(animated: true, completion: nil)
     }
     
 }

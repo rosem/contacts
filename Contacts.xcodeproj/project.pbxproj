@@ -23,6 +23,7 @@
 		5A217D1D1F3B6F39003B8054 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A217D1C1F3B6F39003B8054 /* ContactTableViewCell.swift */; };
 		5A217D201F3B771B003B8054 /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A217D1F1F3B771B003B8054 /* ContactDetailViewController.swift */; };
 		5A217D221F3B90FA003B8054 /* ReadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A217D211F3B90FA003B8054 /* ReadCell.swift */; };
+		5A9154BE1F3EB9EC00BD74B1 /* ContactEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9154BD1F3EB9EC00BD74B1 /* ContactEditViewController.swift */; };
 		5AB93A671F3CE034004B74F1 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB93A661F3CE034004B74F1 /* SearchResultsViewController.swift */; };
 		5AB93A691F3CE68D004B74F1 /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB93A681F3CE68D004B74F1 /* BaseTableViewController.swift */; };
 		5AB93A6C1F3D23A9004B74F1 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB93A6B1F3D23A9004B74F1 /* NetworkReachability.swift */; };
@@ -35,7 +36,7 @@
 		5AB93A871F3DCA65004B74F1 /* ReadDoubleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB93A861F3DCA65004B74F1 /* ReadDoubleCell.swift */; };
 		5AB93A8A1F3DECA3004B74F1 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB93A891F3DECA3004B74F1 /* MapViewController.swift */; };
 		5AB93A8C1F3DF9D3004B74F1 /* ReadButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB93A8B1F3DF9D3004B74F1 /* ReadButtonCell.swift */; };
-		5AB93A8F1F3E6857004B74F1 /* ContactEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB93A8E1F3E6857004B74F1 /* ContactEditViewController.swift */; };
+		5AB93A8F1F3E6857004B74F1 /* ContactCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB93A8E1F3E6857004B74F1 /* ContactCreateViewController.swift */; };
 		5AB93A911F3E85B5004B74F1 /* EditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB93A901F3E85B5004B74F1 /* EditCell.swift */; };
 		8DC506E887A8FC7F8B40F28A /* Pods_Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 262EECEC4613A8AFAAAD8944 /* Pods_Contacts.framework */; };
 /* End PBXBuildFile section */
@@ -71,6 +72,7 @@
 		5A217D1C1F3B6F39003B8054 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		5A217D1F1F3B771B003B8054 /* ContactDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
 		5A217D211F3B90FA003B8054 /* ReadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadCell.swift; sourceTree = "<group>"; };
+		5A9154BD1F3EB9EC00BD74B1 /* ContactEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactEditViewController.swift; sourceTree = "<group>"; };
 		5AB93A661F3CE034004B74F1 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		5AB93A681F3CE68D004B74F1 /* BaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
 		5AB93A6B1F3D23A9004B74F1 /* NetworkReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
@@ -83,7 +85,7 @@
 		5AB93A861F3DCA65004B74F1 /* ReadDoubleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadDoubleCell.swift; sourceTree = "<group>"; };
 		5AB93A891F3DECA3004B74F1 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		5AB93A8B1F3DF9D3004B74F1 /* ReadButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadButtonCell.swift; sourceTree = "<group>"; };
-		5AB93A8E1F3E6857004B74F1 /* ContactEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactEditViewController.swift; sourceTree = "<group>"; };
+		5AB93A8E1F3E6857004B74F1 /* ContactCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCreateViewController.swift; sourceTree = "<group>"; };
 		5AB93A901F3E85B5004B74F1 /* EditCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCell.swift; sourceTree = "<group>"; };
 		6796004462827BD7130211F2 /* Pods-Contacts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.release.xcconfig"; path = "Pods/Target Support Files/Pods-Contacts/Pods-Contacts.release.xcconfig"; sourceTree = "<group>"; };
 		6BB6DFBFEB9B5DFCD193F6E7 /* Pods-Contacts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Contacts/Pods-Contacts.debug.xcconfig"; sourceTree = "<group>"; };
@@ -227,7 +229,8 @@
 		5AB93A8D1F3E6805004B74F1 /* Create/Update/Delete */ = {
 			isa = PBXGroup;
 			children = (
-				5AB93A8E1F3E6857004B74F1 /* ContactEditViewController.swift */,
+				5AB93A8E1F3E6857004B74F1 /* ContactCreateViewController.swift */,
+				5A9154BD1F3EB9EC00BD74B1 /* ContactEditViewController.swift */,
 				5AB93A901F3E85B5004B74F1 /* EditCell.swift */,
 			);
 			name = Create/Update/Delete;
@@ -472,10 +475,11 @@
 				5A217D1D1F3B6F39003B8054 /* ContactTableViewCell.swift in Sources */,
 				5A217CF21F3B5B2B003B8054 /* Contacts.xcdatamodeld in Sources */,
 				5AB93A871F3DCA65004B74F1 /* ReadDoubleCell.swift in Sources */,
+				5A9154BE1F3EB9EC00BD74B1 /* ContactEditViewController.swift in Sources */,
 				5AB93A801F3D2EE0004B74F1 /* InternalNotificationManager.swift in Sources */,
 				5AB93A691F3CE68D004B74F1 /* BaseTableViewController.swift in Sources */,
 				5A217D131F3B66E2003B8054 /* Contact+CoreDataClass.swift in Sources */,
-				5AB93A8F1F3E6857004B74F1 /* ContactEditViewController.swift in Sources */,
+				5AB93A8F1F3E6857004B74F1 /* ContactCreateViewController.swift in Sources */,
 				5A217D151F3B66E2003B8054 /* ManagedObject+CoreDataClass.swift in Sources */,
 				5AB93A841F3D2EE0004B74F1 /* InternalSyncNotificationView.swift in Sources */,
 				5AB93A831F3D2EE0004B74F1 /* InternalMessageNotificationView.swift in Sources */,

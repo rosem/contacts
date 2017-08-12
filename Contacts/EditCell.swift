@@ -62,6 +62,7 @@ class EditCell: UITableViewCell {
         textField.delegate = nil
         textField.keyboardType = .default
         textField.isEnabled = true
+        textField.inputView = nil
         
         selectionStyle = .none
         accessoryType = .none

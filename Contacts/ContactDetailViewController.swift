@@ -61,6 +61,7 @@ class ContactDetailViewController: UITableViewController {
         let editContact = childContext.object(with: contact.objectID) as! Contact
     
         let editViewController = ContactEditViewController(contact: editContact, managedObjectContext: childContext)
+        editViewController.delegate = self
         let navController = UINavigationController(rootViewController: editViewController)
         navController.modalTransitionStyle = .crossDissolve
         
@@ -82,7 +83,9 @@ class ContactDetailViewController: UITableViewController {
             double.detailLeftLabel.text = "Date of Birth"
             double.mainLeftLabel.text = contact.dateOfBirthString
             double.detailRightLabel.text = "Age"
-            double.mainRightLabel.text = String(contact.age)
+            if let age = contact.age {
+                double.mainRightLabel.text = String(age)
+            }
             
             cell = double
         } else if indexPath.row == 3 || indexPath.row == 4 {
@@ -128,27 +131,30 @@ class ContactDetailViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 3 {
             // Phone
-            let phoneNumber = contact.phoneNumberOnly
-            if let phoneCallURL:URL = URL(string: "tel:\(phoneNumber)") {
-                let application: UIApplication = UIApplication.shared
-                if (application.canOpenURL(phoneCallURL)) {
-                    application.open(phoneCallURL, options: [:], completionHandler: nil)
-                } else {
-                    let alertController = UIAlertController(title: "Call Contact", message: "This device does not support phone calls.", preferredStyle: .alert)
-                    let ok = UIAlertAction(title: "Ok", style: .default, handler: { (action) in
-                        
-                    })
-                    alertController.addAction(ok)
-                    present(alertController, animated: true, completion: nil)
+            if let phoneNumber = contact.phoneNumberOnly {
+                if let phoneCallURL:URL = URL(string: "tel:\(phoneNumber)") {
+                    let application: UIApplication = UIApplication.shared
+                    if (application.canOpenURL(phoneCallURL)) {
+                        application.open(phoneCallURL, options: [:], completionHandler: nil)
+                    } else {
+                        let alertController = UIAlertController(title: "Call Contact", message: "This device does not support phone calls.", preferredStyle: .alert)
+                        let ok = UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+                            
+                        })
+                        alertController.addAction(ok)
+                        present(alertController, animated: true, completion: nil)
+                    }
                 }
             }
             
         } else if indexPath.row == 4 {
             // Map
-            let mapViewController = MapViewController(zipCode: contact.zipCode)
-            let navController = UINavigationController(rootViewController: mapViewController)
-            
-            present(navController, animated: true, completion: nil)
+            if let zip = contact.zipCode {
+                let mapViewController = MapViewController(zipCode: zip)
+                let navController = UINavigationController(rootViewController: mapViewController)
+                
+                present(navController, animated: true, completion: nil)
+            }
         }
     }
     
@@ -156,4 +162,28 @@ class ContactDetailViewController: UITableViewController {
         return 60.0
     }
 
+}
+
+extension ContactDetailViewController: ContactCreateViewControllerDelegate {
+    
+    func contactCreateViewControllerDidFinish(viewController: ContactCreateViewController, save: Bool) {
+        if save {
+            let childContext = viewController.managedObjectContext!
+            if childContext.hasChanges {
+                do {
+                    try viewController.managedObjectContext.save()
+                    ContactsData.shared.saveMainContext()
+                    
+                    let updatedContact = ContactsData.shared.mainContext.object(with: viewController.contact.objectID) as! Contact
+                    contact = updatedContact
+                    tableView.reloadData()
+                } catch {
+                    fatalError("Failure to save child context: \(error)")
+                }
+            }
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
 }

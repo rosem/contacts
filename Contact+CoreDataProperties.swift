@@ -16,44 +16,72 @@ extension Contact {
         return NSFetchRequest<Contact>(entityName: "Contact")
     }
 
-    @NSManaged public var firstName: String!
-    @NSManaged public var lastName: String!
-    @NSManaged public var dateOfBirth: NSDate!
-    @NSManaged public var phoneNumber: String!
-    @NSManaged public var zipCode: String!
+    @NSManaged public var firstName: String?
+    @NSManaged public var lastName: String?
+    @NSManaged public var dateOfBirth: NSDate?
+    @NSManaged public var phoneNumber: String?
+    @NSManaged public var zipCode: String?
     
-    public var displayName: String {
-        return lastName + ", " + firstName
-    }
-    
-    public var sectionLetter: String {
-        let letter = lastName[lastName.startIndex]
-        return String(letter)
-    }
-    
-    public var dateOfBirthString: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        return dateFormatter.string(from: self.dateOfBirth as Date)
-    }
-    
-    public var age: Int {
-        let now = Date()
-        let calendar = Calendar.current
-        let ageComponents = calendar.dateComponents([.year], from: dateOfBirth as Date, to: now)
+    public var displayName: String? {
+        if firstName != nil && lastName != nil {
+            return lastName! + ", " + firstName!
+        }
         
-        return ageComponents.year!
+        return nil
     }
     
-    public var phoneNumberOnly: String {
+    public var sectionLetter: String? {
+        if let name = lastName {
+            let letter = name[name.startIndex]
+            let letterString = String(letter)
+            
+            let digits = CharacterSet.decimalDigits
+            for uni in letterString.unicodeScalars {
+                if digits.contains(uni) {
+                    return "#"
+                }
+            }
+            
+            return letterString
+        }
+        
+        return nil
+    }
+    
+    public var dateOfBirthString: String? {
+        if let dob = dateOfBirth {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            return dateFormatter.string(from: dob as Date)
+        }
+        
+        return nil
+    }
+    
+    public var age: Int? {
+        if let dob = dateOfBirth {
+            let now = Date()
+            let calendar = Calendar.current
+            let ageComponents = calendar.dateComponents([.year], from: dob as Date, to: now)
+            
+            return ageComponents.year!
+        }
+        
+        return nil
+    }
+    
+    public var phoneNumberOnly: String? {
         // TODO: Better parsing of phone number
-        var number = phoneNumber!
-        number = number.replacingOccurrences(of: "(", with: "")
-        number = number.replacingOccurrences(of: ")", with: "")
-        number = number.replacingOccurrences(of: "-", with: "")
-        number = number.replacingOccurrences(of: " ", with: "")
+        if var number = phoneNumber {
+            number = number.replacingOccurrences(of: "(", with: "")
+            number = number.replacingOccurrences(of: ")", with: "")
+            number = number.replacingOccurrences(of: "-", with: "")
+            number = number.replacingOccurrences(of: " ", with: "")
+            
+            return number
+        }
         
-        return number
+        return nil
     }
 
 }
