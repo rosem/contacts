@@ -46,6 +46,7 @@ class ContactsData {
         }
     }
     
+    // Merge changes from the background thread into the main context
     @objc private func contextDidSave(notification: Notification) {
         if let context = notification.object as? NSManagedObjectContext {
             if context != mainContext {

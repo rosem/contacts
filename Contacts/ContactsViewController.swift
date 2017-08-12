@@ -55,6 +55,7 @@ class ContactsViewController: BaseTableViewController {
         }
         
         title = "Contacts"
+        
         navigationItem.leftBarButtonItem = actionItem
         navigationItem.leftBarButtonItem?.isEnabled = network.isReachable
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didCreate))
