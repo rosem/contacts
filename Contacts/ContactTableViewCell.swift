@@ -7,18 +7,13 @@
 //
 
 import UIKit
+import SnapKit
 
 class ContactTableViewCell: UITableViewCell {
 
     static let reuseIdentifier = "ContactTableViewCellReuseIdentifier"
 
     var label: UILabel!
-    
-    // Would normally use Snapkit for programmatic UI (http://snapkit.io/)
-    private var cnX: NSLayoutConstraint!
-    private var cnY: NSLayoutConstraint!
-    private var cnWidth: NSLayoutConstraint!
-    private var cnHeight: NSLayoutConstraint!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -30,12 +25,11 @@ class ContactTableViewCell: UITableViewCell {
         label.lineBreakMode = .byTruncatingTail
         contentView.addSubview(label)
         
-        label.translatesAutoresizingMaskIntoConstraints = false
-        cnX = NSLayoutConstraint(item: label, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: 20)
-        cnY = NSLayoutConstraint(item: label, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 0)
-        cnWidth = NSLayoutConstraint(item: label, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: -20)
-        cnHeight = NSLayoutConstraint(item: label, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: 0)
-        contentView.addConstraints([cnX, cnY, cnWidth, cnHeight])
+        label.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(20.0)
+            make.top.bottom.equalToSuperview()
+            make.right.equalToSuperview().offset(-20.0)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
