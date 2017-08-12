@@ -34,7 +34,7 @@ extension Contact {
     public var dateOfBirthString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
-        return dateFormatter.string(from: dateOfBirth as Date)
+        return dateFormatter.string(from: self.dateOfBirth as Date)
     }
     
     public var age: Int {

@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navController = UINavigationController(rootViewController: contactsViewController)
         
         window = UIWindow(frame: UIScreen.main.bounds)
+        window?.backgroundColor = UIColor.white
         window?.rootViewController = navController
         window?.makeKeyAndVisible()
         

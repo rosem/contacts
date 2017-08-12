@@ -24,7 +24,7 @@ class InternalNotificationManager {
     fileprivate var notificationProcessRunning = false
     
     // We want the internal notification bar to be slightly taller than the status bar
-    fileprivate let statusBarHeightOffset: CGFloat = 10.0
+    fileprivate let statusBarHeightOffset: CGFloat = 0
     
     fileprivate init() {
         // Register for status bar frame changes

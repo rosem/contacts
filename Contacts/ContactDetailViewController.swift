@@ -56,7 +56,15 @@ class ContactDetailViewController: UITableViewController {
     // MARK: - Private
     
     @objc private func didEdit() {
-        //
+        let childContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        childContext.parent = contact.managedObjectContext
+        let editContact = childContext.object(with: contact.objectID) as! Contact
+    
+        let editViewController = ContactEditViewController(contact: editContact, managedObjectContext: childContext)
+        let navController = UINavigationController(rootViewController: editViewController)
+        navController.modalTransitionStyle = .crossDissolve
+        
+        self.navigationController!.present(navController, animated: true, completion: nil)
     }
 
     // MARK: - Table view data source

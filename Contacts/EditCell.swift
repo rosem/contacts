@@ -1,24 +1,23 @@
 //
-//  ReadCell.swift
+//  EditCell.swift
 //  Contacts
 //
-//  Created by Michael Rose on 8/9/17.
+//  Created by Michael Rose on 8/11/17.
 //  Copyright © 2017 Mike Rose. All rights reserved.
 //
 
 import UIKit
-import SnapKit
 
-class ReadCell: UITableViewCell {
+class EditCell: UITableViewCell {
 
-    static let reuseIdentifier = "ReadCellReuseIdentifier"
+    static let reuseIdentifier = "EditCellReuseIdentifier"
     
     var detailLabel: UILabel!
-    var mainLabel: UILabel!
+    var textField: UITextField!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-    
+        
         selectionStyle = .none
         
         // Detail label
@@ -35,16 +34,16 @@ class ReadCell: UITableViewCell {
             make.height.equalTo(16.0)
         }
         
-        // Main label
-        mainLabel = UILabel()
-        // mainLabel.backgroundColor = UIColor.yellow
-        mainLabel.font = UIFont.systemFont(ofSize: 17.0)
-        mainLabel.numberOfLines = 1
-        contentView.addSubview(mainLabel)
+        // Text field
+        textField = UITextField()
+        // textField.backgroundColor = UIColor.yellow
+        textField.font = UIFont.systemFont(ofSize: 17.0)
+        textField.autocorrectionType = .no
+        contentView.addSubview(textField)
         
-        mainLabel.snp.makeConstraints { (make) in
+        textField.snp.makeConstraints { (make) in
             make.left.equalTo(detailLabel.snp.left)
-            make.top.equalTo(detailLabel.snp.bottom).offset(3.0)
+            make.top.equalTo(detailLabel.snp.bottom).offset(3.5)
             make.right.equalToSuperview().offset(-20.0)
             make.bottom.equalToSuperview().offset(-7.0)
         }
@@ -58,10 +57,15 @@ class ReadCell: UITableViewCell {
         super.prepareForReuse()
         
         detailLabel.text = nil
-        mainLabel.text = nil
+        
+        textField.text = nil
+        textField.delegate = nil
+        textField.keyboardType = .default
+        textField.isEnabled = true
         
         selectionStyle = .none
         accessoryType = .none
     }
+
 
 }
